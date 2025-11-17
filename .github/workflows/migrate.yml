@@ -21,7 +21,11 @@ jobs:
           version: 8
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      - name: Verify installation
+        run: |
+          ls -la node_modules/.bin | head -20
+          pnpm list --depth=0
       - name: Apply migrations
-        run: pnpm drizzle:migrate
+        run: pnpm exec drizzle-kit migrate
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
